@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Garuda Alloy Tempest",
+    "price": 5850,
+    "imgUrl": "/imgs/bike.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Garuda Folding Bike",
+    "price": 6500,
+    "imgUrl": "/imgs/bike2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Garuda Ebike",
+    "price": 14600,
+    "imgUrl": "/imgs/bike3.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Garuda Japanese Bike",
+    "price": 3900,
+    "imgUrl": "/imgs/bike4.jpg"
+  }
+]
