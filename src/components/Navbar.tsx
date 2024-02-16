@@ -27,6 +27,7 @@ export function Navbar() {
           </Nav.Link>
         </Nav>
         {cartQuantity > 0 && (
+          
           <Button
             onClick={openCart}
             style={{ width: "3rem", height: "3rem", position: "relative" }}
