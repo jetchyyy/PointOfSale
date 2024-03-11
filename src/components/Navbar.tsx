@@ -1,13 +1,15 @@
 import { Button, Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useShoppingCart } from "../context/ShoppingCartContext";
+import './Navbar.css';
+import Contact from "../pages/Contact";
 
 export function Navbar() {
   const { openCart, cartQuantity } = useShoppingCart();
   return (
     <NavbarBs sticky="top" className="bg-white shadow-sm mb-3">
       <Container>
-        <NavbarBs.Brand to="/" as={NavLink}>
+        <NavbarBs.Brand to="/" as={NavLink} className="navbar-brand-effect">
           <img
             src="/public/imgs/Biketopialogo.png"
             height="70"
@@ -16,18 +18,19 @@ export function Navbar() {
           />
         </NavbarBs.Brand>
         <Nav className="me-auto">
-          <Nav.Link to="/" as={NavLink}>
+          <Nav.Link to="/" as={NavLink} className="nav-link-effect">
             Home
           </Nav.Link>
-          <Nav.Link to="/store" as={NavLink}>
+          <Nav.Link to="/store" as={NavLink} className="nav-link-effect">
             Store
           </Nav.Link>
-          <Nav.Link to="/about" as={NavLink}>
+          <Nav.Link to="/about" as={NavLink} className="nav-link-effect">
             About
           </Nav.Link>
+          <Nav.Link to="/about" as={NavLink}></Nav.Link>
+        
         </Nav>
         {cartQuantity > 0 && (
-          
           <Button
             onClick={openCart}
             style={{ width: "3rem", height: "3rem", position: "relative" }}

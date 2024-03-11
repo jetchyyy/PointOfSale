@@ -1,76 +1,94 @@
-import { TextField } from '@mui/material';
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateField } from '@mui/x-date-pickers/DateField';
-import dayjs from 'dayjs';
+import { TextField } from "@mui/material";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Toast from "react-bootstrap/Toast";
+import MenuItem from "@mui/material/MenuItem";
 
 
 function Modalcomponent() {
   const [show, setShow] = useState(false);
-  
-  const [formData, setFormData] = useState({
-    fullName: '',
-    emailAddress: '',
-    contactNumber: '',
-    currentAddress: '',
-    modeOfPayment: 'USD',
-    dateOfBooking: dayjs('2022-04-17'),
-  });
+  const [showToast, setShowToast] = useState(false);
+  const [cart, setCart] = useState([]);
   const currencies = [
     {
-      value: 'USD',
-      label: 'Cash',
+      value: "USD",
+      label: "Cash",
     },
     {
-      value: 'EUR',
-      label: 'Gcash',
+      value: "EUR",
+      label: "Gcash",
     },
-    
   ];
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleConfirm = async () => {
-    // Send an HTTP request to your server with formData
+  const handleConfirm = async (e) => {
+    e.preventDefault();
+    console.log();
+
     try {
-      const response = await fetch('/api/sendEmail', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      // Handle the response, show success message, etc.
-      if (response.ok) {
-        console.log('Email sent successfully');
-      } else {
-        console.error('Failed to send email');
-      }
+      setTimeout(() => {
+        setCart([]);
+        setShowToast(true);
+        handleClose();
+      }, 0);
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error("Error sending email:", error);
     }
-
-    handleClose();
   };
 
-  const handleChange = (fieldName, value) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [fieldName]: value,
-    }));
+  const [user, setUser] = useState({
+    Name: "",
+    Email: "",
+    Number: "",
+    Address: " ",
+  });
+  let name, value;
+  console.log(user);
+  const data = (e) => {
+    name = e.target.name;
+    value = e.target.value;
+    setUser({ ...user, [name]: value });
+  };
+  const { Name, Email, Number, Address } = user;
+  const getdata = async (e) => {
+    e.preventDefault();
+    
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Name,
+        Email,
+        Number,
+        Address,
+    }),
+  }
+    const res = await fetch(
+      "https://point-of-sale-59331-default-rtdb.firebaseio.com/UserData.json",
+      options
+    );
+    console.log(res.ok)
+    if (res) {
+      alert("Your Order has been received.");
+    } else {
+      alert("Fail");
+    } 
   };
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button
+        variant="primary"
+        style={{
+          backgroundColor: "black",
+          boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+        }}
+        onClick={handleShow}
+      >
         Checkout
       </Button>
 
@@ -81,70 +99,138 @@ function Modalcomponent() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Booking Confirmation</Modal.Title>
+          <Modal.Title>Order Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-  <div className="container">
-    <div className="row">
-      <div className="col-md-6">
-        <TextField id="filled-basic" label="Full Name" variant="filled" style={{ margin: '10px' }} />
-      </div>
-      <div className="col-md-6">
-        <TextField id="filled-basic" label="Email Address" variant="filled" style={{ margin: '10px' }} />
-      </div>
-    </div>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6">
+                <TextField
+                  id="filled-basic"
+                  label="Full Name"
+                  name="Name"
+                  value={user.Name}
+                  variant="filled"
+                  required
+                  onChange={data}
+                  style={{ margin: "10px" }}
+                />
+              </div>
+              <div className="col-md-6">
+                <TextField
+                  id="filled-basic"
+                  label="Email Address"
+                  name="Email"
+                  value={user.Email}
+                  variant="filled"
+                  required
+                  onChange={data}
+                  style={{ margin: "10px" }}
+                />
+              </div>
+            </div>
 
-    <div className="row">
-      <div className="col-md-6">
-        <TextField id="filled-basic" label="Contact Number" variant="filled" style={{ margin: '10px' }} />
-      </div>
-      <div className="col-md-6">
-        <TextField id="filled-basic" label="Current Address" variant="filled" style={{ margin: '10px' }} />
-      </div>
-    </div>
+            <div className="row">
+              <div className="col-md-6">
+                <TextField
+                  id="filled-basic"
+                  label="Contact Number"
+                  name="Number"
+                  value={user.Number}
+                  variant="filled"
+                  required
+                  onChange={data}
+                  style={{ margin: "10px" }}
+                />
+              </div>
+              <div className="col-md-6">
+                <TextField
+                  id="filled-basic"
+                  label="Current Address"
+                  name="Address"
+                  value={user.Address}
+                  variant="filled"
+                  required
+                  onChange={data}
+                  style={{ margin: "10px" }}
+                />
+              </div>
+            </div>
 
-    <div className="row">
-      <div className="col-md-6">
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="Mode of Payment"
-          defaultValue="USD"
-          helperText="Please select mode of payment"
-          style={{ margin: '10px' }}
-        >
-          {currencies.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-      </div>
-      <div className="col-md-6">
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DateField', 'DateField']}>
-        <DateField
-          label="Date of Booking"
-          defaultValue={dayjs('2022-04-17')}
-          format="LL"
-        />
-      </DemoContainer>
-    </LocalizationProvider>
-      </div>
-    </div>
-  </div>
-</Modal.Body>
+            <div className="row">
+              <div className="col-md-6">
+                <TextField
+                  id="outlined-select-currency"
+                  select
+                  label="Mode of Payment"
+                  defaultValue="USD"
+                  helperText="Please select mode of payment"
+                  style={{ margin: "10px" }}
+                >
+                  {currencies.map((option) => (
+                    <MenuItem
+                      style={{
+                        backgroundColor: "secondary",
+                        boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                      }}
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
 
-  
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            style={{
+              backgroundColor: "black",
+              boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+            }}
+            onClick={handleClose}
+          >
             Back
           </Button>
-          <Button variant="primary" onClick={handleConfirm}>
+          <Button
+            variant="primary"
+            style={{
+              backgroundColor: "black",
+              boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+            }}
+            onClick={getdata}
+          >
             Confirm
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Toast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        delay={10000} // 3000 milliseconds (3 seconds) delay
+        autohide={false}
+        style={{
+          position: "fixed",
+          top: "50%", // Set to 50% to center vertically
+          left: "50%", // Set to 50% to center horizontally
+          transform: "translate(-50%, -50%)", // Center the toast
+          maxWidth: "400px", // Set the maximum width of the toast
+          fontSize: "1.2rem", // Increase the font size
+        }}
+      >
+        <Toast.Header>
+          <strong className="me-auto">Order Received</strong>
+        </Toast.Header>
+        <Toast.Body>
+          We received your order! Check your email for the status of your order.
+          Thank you!
+        </Toast.Body>
+      </Toast>
     </>
   );
 }

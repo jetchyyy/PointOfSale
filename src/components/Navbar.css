@@ -1,0 +1,14 @@
+.nav-link-effect {
+  transition: transform 0.3s;
+}
+
+.nav-link-effect:hover {
+  transform: scale(1.5);
+}
+.nav-link-effect {
+  transition: transform 0.3s;
+}
+
+.navbar-brand-effect:hover {
+  cursor: default; 
+}
