@@ -1,0 +1,26 @@
+[
+{
+    "id": 13,
+    "name": "Lazer Helmet",
+    "price": 3900,
+    "imgUrl": "/imgs/helmet.jpg"
+  },
+{
+    "id": 14,
+    "name": "Lazer Helmet",
+    "price": 3900,
+    "imgUrl": "/imgs/helmet.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Lazer Helmet",
+    "price": 3900,
+    "imgUrl": "/imgs/helmet.jpg"
+  },
+  {
+    "id": 16,
+    "name": "Lazer Helmet",
+    "price": 3900,
+    "imgUrl": "/imgs/helmet.jpg"
+  }
+]

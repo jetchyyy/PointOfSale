@@ -22,6 +22,7 @@
     "name": "Garuda Japanese Bike",
     "price": 3900,
     "imgUrl": "/imgs/bike4.jpg"
+    
   },
   {
     "id": 5,
@@ -29,10 +30,43 @@
     "price": 3900,
     "imgUrl": "/imgs/bike6.jpg"
   },
+  
   {
-    "id": 6,
-    "name": "Lazer Helmet",
+    "id": 7,
+    "name": "Garuda Limited Edition",
     "price": 3900,
-    "imgUrl": "/imgs/helmet.jpg"
+    "imgUrl": "/imgs/bike6.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Garuda Limited Edition",
+    "price": 3900,
+    "imgUrl": "/imgs/bike6.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Garuda Limited Edition",
+    "price": 3900,
+    "imgUrl": "/imgs/bike6.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Garuda Limited Edition",
+    "price": 3900,
+    "imgUrl": "/imgs/bike6.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Garuda Limited Edition",
+    "price": 3900,
+    "imgUrl": "/imgs/bike6.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Garuda Limited Edition",
+    "price": 3900,
+    "imgUrl": "/imgs/bike6.jpg"
   }
+  
+
 ]

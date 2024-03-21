@@ -1,9 +1,12 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
+import Icon from "../utilities/Icon";
+import Button from "@mui/material/Button/Button";
 
 export function Home() {
   return (
+    <>
     <Container>
       <div className="container mt-5 hover">
         <h1 className="display-4">Welcome to Biketopia</h1>
@@ -84,11 +87,93 @@ export function Home() {
                 >
                   Buy Now
                 </a>
+                
               </div>
             </div>
           </div>
         </div>
       </div>
+      <section className="py-5">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-3 col-sm-6">
+                <a href="#something">
+                  <img
+                    className="img-fluid d-block mx-auto"
+                    src="/imgs/Shoes.jpg"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div className="col-md-3 col-sm-6">
+                <a href="#something">
+                  <img
+                    className="img-fluid d-block mx-auto"
+                    src="/imgs/Shoes.jpg"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div className="col-md-3 col-sm-6">
+                <a href="#something">
+                  <img
+                    className="img-fluid d-block mx-auto"
+                    src="/imgs/Shoes.jpg"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div className="col-md-3 col-sm-6">
+                <a href="#something">
+                  <img
+                    className="img-fluid d-block mx-auto"
+                    src="/imgs/Shoes.jpg"
+                    alt=""
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        
+
+        <footer className="footer">
+          <div className="container">
+            <div className="row align-items-center">
+              <div className="col-md-4">
+                
+              </div>
+              <div className="col-md-4">
+                <ul className="list-inline social-buttons">
+                  <li className="list-inline-item">
+                    <a href="#something">
+                      <i className="fa fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a href="#something">
+                      <i className="fa fa-facebook-f"></i>
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a href="#something">
+                      <i className="fa fa-linkedin-in"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              
+             
+              
+              
+            
+          </div>
+        </div>  
+        </footer>
+      
     </Container>
+    <Icon/>
+    </>
   );
 }

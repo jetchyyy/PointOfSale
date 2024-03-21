@@ -1,0 +1,26 @@
+[
+    {
+        "id": 17,
+        "name": "RC8",
+        "price": 2800,
+        "imgUrl": "/imgs/Shoes.jpg"
+      },
+    {
+        "id": 18,
+        "name": "RC8",
+        "price": 2800,
+        "imgUrl":"/imgs/Shoes.jpg"
+      },
+      {
+        "id": 19,
+        "name": "Santic",
+        "price": 2800,
+        "imgUrl": "/imgs/santic.jpg"
+      },
+      {
+        "id": 20,
+        "name": "Santic",
+        "price": 2800,
+        "imgUrl": "/imgs/santic.jpg"
+      }
+]
