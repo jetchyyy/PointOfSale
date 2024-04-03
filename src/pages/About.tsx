@@ -101,14 +101,15 @@ export function About() {
       <Container>
         <div style={{ position: "relative", marginTop: "100px" }}>
           <img
-            src="/imgs/Bikelogo.png"
+            src="/imgs/mission.jpg"
             alt="Biketopia Logo"
             style={{
               position: "absolute",
               top: 0,
-              left: 0,
+              left: 0,  
+              
               height: "400px",
-              width: "400px",
+              width: "550px",
               objectFit: "cover",
               marginBottom: "50px",
               marginRight: "500px",

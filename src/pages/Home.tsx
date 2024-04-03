@@ -97,7 +97,7 @@ export function Home() {
           <div className="container">
             <div className="row">
               <div className="col-md-3 col-sm-6">
-                <a href="#something">
+                <a href="/shoes">
                   <img
                     className="img-fluid d-block mx-auto"
                     src="/imgs/Shoes.jpg"
@@ -106,7 +106,16 @@ export function Home() {
                 </a>
               </div>
               <div className="col-md-3 col-sm-6">
-                <a href="#something">
+                <a href="/shoes">
+                  <img
+                    className="img-fluid d-block mx-auto"
+                    src="/imgs/santic.jpg"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div className="col-md-3 col-sm-6">
+                <a href="/shoes">
                   <img
                     className="img-fluid d-block mx-auto"
                     src="/imgs/Shoes.jpg"
@@ -115,19 +124,10 @@ export function Home() {
                 </a>
               </div>
               <div className="col-md-3 col-sm-6">
-                <a href="#something">
+                <a href="/shoes">
                   <img
                     className="img-fluid d-block mx-auto"
-                    src="/imgs/Shoes.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-              <div className="col-md-3 col-sm-6">
-                <a href="#something">
-                  <img
-                    className="img-fluid d-block mx-auto"
-                    src="/imgs/Shoes.jpg"
+                    src="/imgs/santic.jpg"
                     alt=""
                   />
                 </a>

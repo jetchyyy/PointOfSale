@@ -5,7 +5,7 @@ import { formatCurrency } from "../utilities/formatCurrency";
 import { CartItem } from "./CartItem";
 import storeItems from "../data/items.json";
 import helmets from "../data/helmets.json";
-import shoesItems from "../data/shoes.json"; 
+import shoesItems from "../data/shoes.json";
 import {
   MenuItem,
   TextField,
@@ -16,21 +16,26 @@ import {
 
 type ShoppingCartProps = {
   isOpen: boolean;
+  
 };
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
-  const { closeCart, cartItems } = useShoppingCart();
+  const { closeCart, cartItems, clearCart } = useShoppingCart();
   const [user, setUser] = useState({
     Name: "",
     Email: "",
     Number: "",
     Address: "",
     PaymentMode: "",
+    InputDate: "", // New field to store the input date
   });
 
   const calculateTotal = () => {
     return cartItems.reduce((total, cartItem) => {
-      const item = storeItems.find((i) => i.id === cartItem.id) || helmets.find((i) => i.id === cartItem.id) || shoesItems.find((i) => i.id === cartItem.id);
+      const item =
+        storeItems.find((i) => i.id === cartItem.id) ||
+        helmets.find((i) => i.id === cartItem.id) ||
+        shoesItems.find((i) => i.id === cartItem.id);
       return total + (item?.price || 0) * cartItem.quantity;
     }, 0);
   };
@@ -60,11 +65,8 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
 
     const orderData = {
       user: {
-        Name,
-        Email,
-        Number,
-        Address,
-        PaymentMode,
+        ...user,
+        InputDate: new Date().toISOString(), // Set the input date to current date
       },
       items: cartData,
     };
@@ -85,14 +87,16 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
         alert(
           "Your order has been placed successfully! For the status update of your order a message from our facebook page will be sent to you. Thank you for choosing Biketopia"
         );
+        closeCart();
         setUser({
           Name: "",
           Email: "",
           Number: "",
           Address: "",
           PaymentMode: "",
+          InputDate: "", // Reset input date after checkout
         });
-        closeCart();
+        clearCart();
       } else {
         alert("Failed to place order. Please try again.");
       }

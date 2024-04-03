@@ -37,72 +37,77 @@ export function StoreItem({
   const item = regularItem || helmetItem || shoesItem; // Choose the item from either storeItems or helmetItems
 
   return (
-    <Card className="h-100 hover enlarge">
-      <Card.Img
-        variant="top"
-        src={imgUrl}
-        height="200px"
-        style={{ objectFit: "cover" }}
-      />
-      <Card.Body className="d-flex flex-column">
-        <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-          <span className="fs-2">{name}</span>
-          <span className="ms-2 text-muted">{formatCurrency(price)}</span>
-        </Card.Title>
-        <div className="mt-auto">
-          {quantity === 0 ? (
-            <Button
-              className="w-100"
-              style={{
-                backgroundColor: "black",
-                boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
-              }}
-              onClick={() => increaseCartQuantity(id)}
-            >
-              + Add To Cart
-            </Button>
-          ) : (
-            <div
-              className="d-flex align-items-center flex-column"
-              style={{ gap: ".5rem" }}
-            >
-              <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ gap: ".5rem" }}
-              >
+    <div style={{ marginBottom: '45px' }}> {/* Adjust the margin bottom here */}
+      <div style={{ height: '400px', marginLeft:"5px" }}>
+        <Card className="h-100 hover enlarge">
+          <Card.Img
+            variant="top"
+            src={imgUrl}
+            height="200px"
+            style={{ objectFit: "cover", padding:"10px" }}
+          />
+          <Card.Body className="d-flex flex-column">
+            <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
+              <span className="fs-2">{name}</span>
+              <span className="ms-2 text-muted">{formatCurrency(price)}</span>
+            </Card.Title>
+            <div className="mt-auto">
+              {quantity === 0 ? (
                 <Button
-                  style={{
-                    backgroundColor: "black",
-                    boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
-                  }}
-                  onClick={() => decreaseCartQuantity(id)}
-                >
-                  -
-                </Button>
-                <div>
-                  <span className="fs-3">{quantity}</span> in cart
-                </div>
-                <Button
+                  className="w-100"
                   style={{
                     backgroundColor: "black",
                     boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
                   }}
                   onClick={() => increaseCartQuantity(id)}
                 >
-                  +
+                  + Add To Cart
                 </Button>
-              </div>
-              <Button
-                onClick={() => removeFromCart(id)}
-                variant="danger"
-                size="sm"
-              >
-                Remove
-              </Button>
+              ) : (
+                <div
+                  className="d-flex align-items-center flex-column"
+                  style={{ gap: ".5rem" }}
+                >
+                  <div
+                    className="d-flex align-items-center justify-content-center"
+                    style={{ gap: ".5rem" }}
+                  >
+                    <Button
+                      style={{
+                        backgroundColor: "black",
+                        boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                      }}
+                      onClick={() => decreaseCartQuantity(id)}
+                    >
+                      -
+                    </Button>
+                    <div>
+                      <span className="fs-3">{quantity}</span> in cart
+                    </div>
+                    <Button
+                      style={{
+                        backgroundColor: "black",
+                        boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                      }}
+                      onClick={() => increaseCartQuantity(id)}
+                    >
+                      +
+                    </Button>
+                  </div>
+                  <Button
+                    onClick={() => removeFromCart(id)}
+                    variant="danger"
+                    size="sm"
+                    
+                  >
+                    Remove
+                  </Button>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </Card.Body>
-    </Card>
+          </Card.Body>
+        </Card>
+      </div>
+    </div>
   );
 }

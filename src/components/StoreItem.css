@@ -15,6 +15,6 @@
   .enlarge:hover {
     /* Add your enlarge styles here */
     /* For example: increase font size, change background color, etc. */
-    transform: scale(1.2); /* Adjust the scale factor for the enlarge effect */
+    transform: scale(1.1); /* Adjust the scale factor for the enlarge effect */
     transition: transform 0.3s ease-in-out;
   }
