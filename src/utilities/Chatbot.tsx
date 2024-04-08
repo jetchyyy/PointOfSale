@@ -15,7 +15,7 @@ const Chatbot = ({ onClose }) => {
   const [isBotTyping, setIsBotTyping] = useState(false);
 
   const predefinedQuestions = [
-    { question: "Who is handsome?", answer: "Sir Jimuel is handsome." },
+    { question: "Mode of Delivery?", answer: "We deliver through Maxim and Lazada. Fee shall be shouldered by the buyer." },
     {
       question: "What are the modes of payments?",
       answer: "We accept Cash on delivery and Gcash payment.",
@@ -23,7 +23,7 @@ const Chatbot = ({ onClose }) => {
     {
       question: "Where is your shop located?",
       answer:
-        "You can view the location of our shop here: https://www.google.com/maps/dir//Purok+Caimitohan,+Brgy,+Lagtang+Grill+Across,+Talisay,+6045+Cebu/@10.2669676,123.7505266,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x33a99dc3e012d2e9:0x8c47a47e675b496d!2m2!1d123.8329285!2d10.266978?entry=ttu",
+        "https://www.google.com/maps/dir//Purok+Caimitohan,+Brgy,+Lagtang+Grill+Across,+Talisay,+6045+Cebu/@10.2669676,123.7505266,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x33a99dc3e012d2e9:0x8c47a47e675b496d!2m2!1d123.8329285!2d10.266978?entry=ttu",
     },
     // Add more predefined questions and answers as needed
   ];

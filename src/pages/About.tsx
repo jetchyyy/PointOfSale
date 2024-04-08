@@ -15,18 +15,22 @@ export function About() {
               <Card
                 sx={{
                   maxWidth: 500,
-                  padding: "5px",
+                  padding: "15px",
                   margin: "5px",
-                  backgroundColor: "#DCFFB7",
+                  backgroundColor: "#31363F",
                 }}
               >
                 <Typography
                   sx={{
                     fontStyle: "italic",
-                    fontcolor: "#607274",
+                    fontcolor: "white",
                     fontSize: 16,
                     lineHeight: 1.6,
-                    color: "#333",
+                    color: "#ffff",
+                    border: "5px solid #ccc",
+                    borderRadius: "10px",
+                    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+                    padding: "10px",
                   }}
                 >
                   Biktopia stands as the premier distribution leader for
@@ -106,8 +110,7 @@ export function About() {
             style={{
               position: "absolute",
               top: 0,
-              left: 0,  
-              
+              left: 0,
               height: "400px",
               width: "550px",
               objectFit: "cover",
@@ -121,9 +124,9 @@ export function About() {
             <Card
               sx={{
                 maxWidth: 500,
-                padding: "5px",
+                padding: "10px",
                 margin: "5px",
-                backgroundColor: "#DCFFB7",
+                backgroundColor: "#31363F",
                 marginTop: "20px",
               }}
             >
@@ -133,7 +136,11 @@ export function About() {
                   fontcolor: "#607274",
                   fontSize: 16,
                   lineHeight: 1.6,
-                  color: "#333",
+                  color: "#ffff",
+                  padding: "10px",
+                  border: "5px solid #ccc",
+                  borderRadius: "10px",
+                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
                 }}
               >
                 At Biketopia, we are driven by a passion for cycling and a
@@ -144,7 +151,7 @@ export function About() {
                 and welcoming environment where cyclists of all levels can find
                 support, guidance, and camaraderie. Through our dedication to
                 quality, integrity, and sustainability, we aim to be more than
-                just a bike shop – we aspire to be a hub for the cycling
+                just a bike shop we aspire to be a hub for the cycling
                 community, promoting health, happiness, and environmental
                 stewardship one pedal stroke at a time.
               </Typography>

@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from "./Sidebar";
 import { RealtimeData } from "./Orders";
 
-function Orderspage(){
+function Orderspage({ handleLogout }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // Check authentication state on page load
@@ -13,17 +13,17 @@ function Orderspage(){
     }, []);
 
     // Function to handle logout
-    const handleLogout = () => {
+    const handleLogoutClick = () => {
         // Clear authentication state from storage
         localStorage.removeItem('isLoggedIn');
-        // Update local state
-        setIsLoggedIn(false);
+        // Call the handleLogout function passed down from the App component
+        handleLogout();
     };
 
     return (
         
         <Container>
-             <Sidebar handleLogout={handleLogout} />
+             <Sidebar handleLogout={handleLogoutClick} />
             <Row>
                 <Col md={2}>
                    

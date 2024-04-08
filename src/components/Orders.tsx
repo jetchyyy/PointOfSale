@@ -3,7 +3,8 @@ import { ref, onValue, remove, set, off, push } from "firebase/database";
 import { Table, Button, Modal } from "react-bootstrap";
 import StartFirebase from "../firebase";
 import CompletedOrders from "./CompletedOrders";
-import bikeport from "../../public/imgs/bikeport.jpg"
+import bikeport from "../../public/imgs/bikeport.jpg";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 export class RealtimeData extends Component {
   constructor(props) {
     super(props);
@@ -101,12 +102,12 @@ export class RealtimeData extends Component {
     const db = StartFirebase();
     const itemRef = ref(db, `UserData/${key}`);
     const canceledOrdersRef = ref(db, `Canceled`);
-  
+
     onValue(itemRef, (snapshot) => {
       const orderData = snapshot.val();
       // Generate a new key for the canceled order
       const newCanceledOrderRef = push(canceledOrdersRef);
-  
+
       set(newCanceledOrderRef, orderData)
         .then(() => {
           console.log("Order moved to canceled orders successfully");
@@ -119,7 +120,10 @@ export class RealtimeData extends Component {
               // Update UI or state if necessary
             })
             .catch((error) => {
-              console.error("Error removing order from original location:", error);
+              console.error(
+                "Error removing order from original location:",
+                error
+              );
             });
           // Close the cancel modal after the order is canceled
           this.handleCloseCancelModal();
@@ -129,9 +133,6 @@ export class RealtimeData extends Component {
         });
     });
   };
-  
-  
-  
 
   handleCompleteOrder = () => {
     const row = this.state.itemToRemove;
@@ -179,7 +180,7 @@ export class RealtimeData extends Component {
     return (
       <>
         <Table>
-        <img src={bikeport} alt="Biketopiaport" style={{ maxWidth: "175px", width: "100%", height: "auto", position: "fixed", top: 0, left: 100, zIndex: -1000 }} />
+        
           <tbody>
             {this.state.tableData.map((row, index) => {
               return (
@@ -226,6 +227,7 @@ export class RealtimeData extends Component {
                         style={{ marginRight: "5px" }}
                         variant="success"
                         onClick={() => this.handleShowConfirmModal(row)}
+                       
                       >
                         Completed
                       </Button>

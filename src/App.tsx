@@ -63,7 +63,7 @@ function App() {
             path="/orderspage"
             element={
               isLoggedIn ? (
-                <Orderspage />
+                <Orderspage handleLogout={handleLogout} />
               ) : (
                 <Navigate to="/admin" replace />
               )

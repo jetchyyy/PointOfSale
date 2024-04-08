@@ -3,7 +3,7 @@ import { ref, onValue, off, remove } from "firebase/database";
 import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
 import Sidebar from "./Sidebar";
 import StartFirebase from "../firebase";
-import bikeport from "../../public/imgs/bikeport.jpg"
+import bikeport from "../../public/imgs/bikeport.jpg";
 const CompletedOrders = ({ completedOrders, handleLogout }) => {
   const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState("All Purchased");
@@ -39,7 +39,9 @@ const CompletedOrders = ({ completedOrders, handleLogout }) => {
   };
 
   const deleteOrder = (orderId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this order permanently?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this order permanently?"
+    );
     if (confirmDelete) {
       const db = StartFirebase();
       const orderRef = ref(db, `Completed/${orderId}`);
@@ -61,9 +63,8 @@ const CompletedOrders = ({ completedOrders, handleLogout }) => {
     <>
       <Sidebar handleLogout={handleLogout} />
       <Container fluid>
-      <img src={bikeport} alt="Biketopiaport" style={{ maxWidth: "175px", width: "100%", height: "auto", position: "fixed", top: 0, left: 100, zIndex: -1000 }} />
+       
 
-        
         <Row>
           <Col xs={10}>
             <Container className="mt-5">

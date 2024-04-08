@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { BsList } from "react-icons/bs";
 import IconButton from "@mui/material/IconButton";
-import { Button } from "@mui/material"; // Importing Button from Material-UI
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material"; // Importing Button and Dialog from Material-UI
 import biketopiaLogo from "../../public/imgs/Biketopialogo.png";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CancelIcon from '@mui/icons-material/Cancel';
+import LogoutIcon from '@mui/icons-material/ExitToApp';
 
 const Sidebar = ({ handleLogout }) => {
   // State to track sidebar open/close
-  const isOpen = true; // Always open
+  const [isOpen, setIsOpen] = useState(true); // Always open
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+
+  const handleLogoutConfirmation = () => {
+    setLogoutDialogOpen(true);
+  };
+
+  const handleCloseLogoutDialog = () => {
+    setLogoutDialogOpen(false);
+  };
+
+  const handleConfirmLogout = () => {
+    handleLogout();
+    setLogoutDialogOpen(false);
+  };
 
   return (
     <div style={{ position: "sticky", top: 0, zIndex: 1000 }}>
@@ -21,14 +39,12 @@ const Sidebar = ({ handleLogout }) => {
         }}
       >
         {/* Always display the list icon */}
-        <IconButton style={{ marginRight: "20px" }}>
-          <BsList size={30} />
-        </IconButton>
+        
         <Navbar.Brand href="/">
           <img
             src={biketopiaLogo}
             alt="Biketopia Logo"
-            style={{ width: "150px", height: "auto" }}
+            style={{ width: "150px", height: "auto", marginLeft:"30px" }}
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -39,6 +55,7 @@ const Sidebar = ({ handleLogout }) => {
               to="/orderspage"
               variant="contained"
               style={{ margin: "5px", backgroundColor: "#31363F" }}
+              startIcon={<ShoppingCartIcon />}
             >
               Orders
             </Button>
@@ -47,6 +64,7 @@ const Sidebar = ({ handleLogout }) => {
               to="/completedorders"
               variant="outlined"
               style={{ margin: "5px", backgroundColor: "#31363F", color:"#ffff" }}
+              startIcon={<CheckCircleOutlineIcon />}
             >
               Completed Orders
             </Button>
@@ -55,20 +73,36 @@ const Sidebar = ({ handleLogout }) => {
               to="/canceledorders"
               variant="outlined"
               style={{ margin: "5px", backgroundColor: "#31363F", color:"#ffff" }}
+              startIcon={<CancelIcon />}
             >
               Canceled Orders
             </Button>
             <Button
-              onClick={handleLogout}
+              onClick={handleLogoutConfirmation}
               variant="contained"
               color="error"
-              style={{ margin: "5px", }}
+              style={{ margin: "5px", marginLeft:"380px" }}
+              startIcon={<LogoutIcon />} 
             >
               Logout
             </Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      <Dialog open={logoutDialogOpen} onClose={handleCloseLogoutDialog}>
+        <DialogTitle>Confirm Logout</DialogTitle>
+        <DialogContent>
+          Are you sure you want to log out?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseLogoutDialog} color="primary" variant="outlined">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmLogout} color="error" variant="outlined">
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
