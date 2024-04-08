@@ -1,13 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { ref, onValue, off, remove } from "firebase/database";
+import { ref, onValue, off, remove, Database } from "firebase/database";
 import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
 import Sidebar from "./Sidebar";
 import StartFirebase from "../firebase";
 import bikeport from "../../public/imgs/bikeport.jpg";
-const CanceledOrders = ({ handleLogout }) => {
-  const [orders, setOrders] = useState([]);
-  const [filter, setFilter] = useState("All Canceled");
-  const [searchTerm, setSearchTerm] = useState("");
+
+interface User {
+  InputDate: string;
+  Address: string;
+  Email: string;
+  Name: string;
+  Number: string;
+  PaymentMode: string;
+}
+
+interface Item {
+  itemName: string;
+  quantity: number;
+  totalPrice: number;
+}
+
+interface Order {
+  key: string;
+  user: User;
+  items?: { [itemId: string]: Item };
+}
+
+interface CanceledOrdersProps {
+  handleLogout: () => void;
+}
+
+const CanceledOrders: React.FC<CanceledOrdersProps> = ({ handleLogout }) => {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [filter, setFilter] = useState<string>("All Canceled");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const db = StartFirebase();
@@ -15,9 +41,9 @@ const CanceledOrders = ({ handleLogout }) => {
 
     const fetchData = () => {
       onValue(canceledOrdersRef, (snapshot) => {
-        const ordersData = [];
+        const ordersData: Order[] = [];
         snapshot.forEach((childSnapshot) => {
-          ordersData.push({ key: childSnapshot.key, ...childSnapshot.val() });
+          ordersData.push({ key: childSnapshot.key!, ...childSnapshot.val() });
         });
         setOrders(ordersData);
       });
@@ -30,15 +56,15 @@ const CanceledOrders = ({ handleLogout }) => {
     };
   }, []);
 
-  const filterOrders = (selectedFilter) => {
+  const filterOrders = (selectedFilter: string) => {
     setFilter(selectedFilter);
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const deleteOrder = (orderId) => {
+  const deleteOrder = (orderId: string) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this order permanently?"
     );
@@ -65,7 +91,6 @@ const CanceledOrders = ({ handleLogout }) => {
       <Sidebar handleLogout={handleLogout} />
       <Container fluid>
         <Row>
-       
           <Col xs={10}>
             <Container className="mt-5">
               <h2>Canceled Orders</h2>
@@ -152,7 +177,7 @@ const CanceledOrders = ({ handleLogout }) => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5">No canceled orders available</td>
+                      <td colSpan={3}>No canceled orders available</td>
                     </tr>
                   )}
                 </tbody>
