@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Offcanvas, Stack, Button, Modal } from "react-bootstrap";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatCurrency";
@@ -14,23 +14,43 @@ import {
   InputLabel,
 } from "@mui/material";
 
+type User = {
+  Name: string;
+  Email: string;
+  Number: string;
+  Address: string;
+  PaymentMode: string;
+  InputDate: string;
+};
+
+type CartItem = {
+  id: string;
+  quantity: number;
+};
+
 type ShoppingCartProps = {
   isOpen: boolean;
-  
+};
+
+type ModalProps = {
+  user: User;
+  data: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { name: string; value: string }>) => void;
+  handleCheckout: () => void;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { closeCart, cartItems, clearCart } = useShoppingCart();
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<User>({
     Name: "",
     Email: "",
     Number: "",
     Address: "",
     PaymentMode: "",
-    InputDate: "", // New field to store the input date
+    InputDate: "",
   });
 
-  const calculateTotal = () => {
+  const calculateTotal = (): number => {
     return cartItems.reduce((total, cartItem) => {
       const item =
         storeItems.find((i) => i.id === cartItem.id) ||
@@ -40,7 +60,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     }, 0);
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (): Promise<void> => {
     const { Name, Email, Number, Address, PaymentMode } = user;
     if (!Name || !Email || !Number || !Address || !PaymentMode) {
       alert("Please fill in all required fields.");
@@ -66,7 +86,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     const orderData = {
       user: {
         ...user,
-        InputDate: new Date().toISOString(), // Set the input date to current date
+        InputDate: new Date().toISOString(),
       },
       items: cartData,
     };
@@ -94,7 +114,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
           Number: "",
           Address: "",
           PaymentMode: "",
-          InputDate: "", // Reset input date after checkout
+          InputDate: "",
         });
         clearCart();
       } else {
@@ -106,7 +126,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     }
   };
 
-  const data = (e) => {
+  const data = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { name: string; value: string }>): void => {
     const name = e.target.name;
     let value = e.target.value;
 
@@ -130,7 +150,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
             <div className="ms-auto fw-bold fs-5">
               Total {formatCurrency(calculateTotal())}
             </div>
-            <Modalcomponent
+            <ModalComponent
               user={user}
               data={data}
               handleCheckout={handleCheckout}
@@ -143,7 +163,7 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   );
 }
 
-function Modalcomponent({ user, data, handleCheckout, setUser }) {
+function ModalComponent({ user, data, handleCheckout, setUser }: ModalProps) {
   const [show, setShow] = useState(false);
 
   const currencies = [
@@ -156,13 +176,13 @@ function Modalcomponent({ user, data, handleCheckout, setUser }) {
       label: "Gcash",
     },
   ];
-  const isValidEmail = (email) => {
+  const isValidEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = (): void => setShow(false);
+  const handleShow = (): void => setShow(true);
 
   return (
     <>
