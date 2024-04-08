@@ -30,9 +30,7 @@ const Shoes = () => {
               id={item.id}
               name={item.name}
               price={item.price}
-              imgUrl={item.imgUrl}
-              category={item.category}
-            />
+              imgUrl={item.imgUrl} category={""}            />
           </Col>
         ))}
       </Row>

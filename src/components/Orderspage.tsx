@@ -3,12 +3,16 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from "./Sidebar";
 import { RealtimeData } from "./Orders";
 
-function Orderspage({ handleLogout }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+interface Props {
+    handleLogout: () => void;
+}
+
+function Orderspage({ handleLogout }: Props) {
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
     // Check authentication state on page load
     useEffect(() => {
-        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const loggedIn: boolean = localStorage.getItem('isLoggedIn') === 'true';
         setIsLoggedIn(loggedIn);
     }, []);
 
@@ -21,9 +25,8 @@ function Orderspage({ handleLogout }) {
     };
 
     return (
-        
         <Container>
-             <Sidebar handleLogout={handleLogoutClick} />
+            <Sidebar handleLogout={handleLogoutClick} />
             <Row>
                 <Col md={2}>
                    
@@ -35,7 +38,6 @@ function Orderspage({ handleLogout }) {
                             <Row>
                                 <Col>
                                     <p>This is the Orders page content.</p>
-                                    
                                 </Col>
                             </Row>
                             <RealtimeData />

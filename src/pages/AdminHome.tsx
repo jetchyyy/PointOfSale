@@ -23,7 +23,9 @@ const AdminHome = () => {
     <Container>
       <Row>
         
-          <Sidebar />
+          <Sidebar handleLogout={function (): void {
+          throw new Error('Function not implemented.');
+        } } />
         
         <Col md={10}>
           <main role="main" className="ml-sm-auto px-md-4">
