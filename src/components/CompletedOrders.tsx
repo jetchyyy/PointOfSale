@@ -1,13 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { ref, onValue, off, remove } from "firebase/database";
+import { ref, onValue, off, remove, DatabaseReference } from "firebase/database";
 import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
 import Sidebar from "./Sidebar";
 import StartFirebase from "../firebase";
 import bikeport from "../../public/imgs/bikeport.jpg";
-const CompletedOrders = ({ completedOrders, handleLogout }) => {
-  const [orders, setOrders] = useState([]);
-  const [filter, setFilter] = useState("All Purchased");
-  const [searchTerm, setSearchTerm] = useState("");
+
+interface Order {
+  key: string;
+  user: {
+    InputDate: string;
+    Address: string;
+    Email: string;
+    Name: string;
+    Number: string;
+    PaymentMode: string;
+  };
+  items: { [itemId: string]: { itemName: string; quantity: number; totalPrice: number } };
+}
+
+const CompletedOrders: React.FC<{ completedOrders: any; handleLogout: () => void }> = ({
+  completedOrders,
+  handleLogout,
+}) => {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [filter, setFilter] = useState<string>("All Purchased");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const db = StartFirebase();
@@ -15,9 +32,9 @@ const CompletedOrders = ({ completedOrders, handleLogout }) => {
 
     const fetchData = () => {
       onValue(completedOrdersRef, (snapshot) => {
-        const ordersData = [];
+        const ordersData: Order[] = [];
         snapshot.forEach((childSnapshot) => {
-          ordersData.push({ key: childSnapshot.key, ...childSnapshot.val() });
+          ordersData.push({ key: childSnapshot.key!, ...childSnapshot.val() });
         });
         setOrders(ordersData);
       });
@@ -30,24 +47,25 @@ const CompletedOrders = ({ completedOrders, handleLogout }) => {
     };
   }, []);
 
-  const filterOrders = (selectedFilter) => {
+  const filterOrders = (selectedFilter: string) => {
     setFilter(selectedFilter);
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const deleteOrder = (orderId) => {
+  const deleteOrder = (orderId: string) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this order permanently?"
     );
     if (confirmDelete) {
       const db = StartFirebase();
-      const orderRef = ref(db, `Completed/${orderId}`);
+      const orderRef: DatabaseReference = ref(db, `Completed/${orderId}`);
       remove(orderRef);
     }
   };
+
   const filteredOrders = orders.filter((order) => {
     const orderDate = new Date(order.user.InputDate);
     const orderMonth = orderDate.getMonth() + 1; // January is 0
@@ -63,8 +81,6 @@ const CompletedOrders = ({ completedOrders, handleLogout }) => {
     <>
       <Sidebar handleLogout={handleLogout} />
       <Container fluid>
-       
-
         <Row>
           <Col xs={10}>
             <Container className="mt-5">
@@ -152,7 +168,7 @@ const CompletedOrders = ({ completedOrders, handleLogout }) => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5">No completed orders available</td>
+                      <td colSpan={3}>No completed orders available</td>
                     </tr>
                   )}
                 </tbody>
