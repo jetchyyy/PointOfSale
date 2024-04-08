@@ -3,12 +3,16 @@ import { Form, Button, Container, Card, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import BiketopiaLogo from "../../public/imgs/Bikelogo.png";
 
-const AdminLogin = ({ onLoginSuccess }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+interface Props {
+  onLoginSuccess: () => void;
+}
+
+const AdminLogin: React.FC<Props> = ({ onLoginSuccess }) => {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Username:", username);
     console.log("Password:", password);
@@ -59,7 +63,6 @@ const AdminLogin = ({ onLoginSuccess }) => {
                 variant="primary"
                 type="submit"
                 style={{ marginTop: "10px", backgroundColor: "#31363F" }}
-                
               >
                 Login
               </Button>
