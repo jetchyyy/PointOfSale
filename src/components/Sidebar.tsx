@@ -2,18 +2,21 @@ import React, { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { BsList } from "react-icons/bs";
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material"; // Importing Button and Dialog from Material-UI
 import biketopiaLogo from "../../public/imgs/Biketopialogo.png";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
 import LogoutIcon from '@mui/icons-material/ExitToApp';
 
-const Sidebar = ({ handleLogout }) => {
+interface SidebarProps {
+  handleLogout: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ handleLogout }) => {
   // State to track sidebar open/close
-  const [isOpen, setIsOpen] = useState(true); // Always open
-  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState<boolean>(false);
 
   const handleLogoutConfirmation = () => {
     setLogoutDialogOpen(true);
@@ -39,7 +42,6 @@ const Sidebar = ({ handleLogout }) => {
         }}
       >
         {/* Always display the list icon */}
-        
         <Navbar.Brand href="/">
           <img
             src={biketopiaLogo}
