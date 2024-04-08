@@ -176,14 +176,14 @@ export function About() {
                     />
                   </div>
 
-                  <div class="card bg-light">
-                    <div class="card-body">
-                      <div class="timeline-panel text-center">
+                  <div className="card bg-light">
+                    <div className="card-body">
+                      <div className="timeline-panel text-center">
                         <h4>2020-2024</h4>
-                        <h4 class="subheading">Our Humble Beginnings</h4>
+                        <h4 className="subheading">Our Humble Beginnings</h4>
                       </div>
-                      <div class="timeline-body">
-                        <p class="text-muted">
+                      <div className="timeline-body">
+                        <p className="text-muted">
                           From the dusty corners of a garage to the vibrant
                           heart of our community, our journey at Biketopia began
                           with a shared love for the freedom of two wheels.
