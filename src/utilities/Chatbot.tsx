@@ -3,18 +3,28 @@ import chatbotIcon from "../../public/imgs/Biketopialogo.png";
 import { Button } from "@mui/material";
 import "./Chatbot.css";
 
-const Chatbot = ({ onClose }) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [messages, setMessages] = useState([
+interface Message {
+  text: string;
+  isUser: boolean;
+}
+
+interface PredefinedQuestion {
+  question: string;
+  answer: string;
+}
+
+const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [messages, setMessages] = useState<Message[]>([
     {
       text: "Hi there, welcome to Biketopia! How can I help you today?",
       isUser: false,
     },
   ]);
-  const [inputText, setInputText] = useState("");
-  const [isBotTyping, setIsBotTyping] = useState(false);
+  const [inputText, setInputText] = useState<string>("");
+  const [isBotTyping, setIsBotTyping] = useState<boolean>(false);
 
-  const predefinedQuestions = [
+  const predefinedQuestions: PredefinedQuestion[] = [
     { question: "Mode of Delivery?", answer: "We deliver through Maxim and Lazada. Fee shall be shouldered by the buyer." },
     {
       question: "What are the modes of payments?",
@@ -28,7 +38,7 @@ const Chatbot = ({ onClose }) => {
     // Add more predefined questions and answers as needed
   ];
 
-  const handlePredefinedQuestionClick = (question) => {
+  const handlePredefinedQuestionClick = (question: string) => {
     const matchedQuestion = predefinedQuestions.find(
       (q) => q.question.toLowerCase() === question.toLowerCase()
     );
@@ -42,7 +52,7 @@ const Chatbot = ({ onClose }) => {
     }
   };
 
-  const sendMessage = (text, isUser = true) => {
+  const sendMessage = (text: string, isUser: boolean = true) => {
     setMessages([...messages, { text, isUser }]);
   };
 
@@ -57,7 +67,7 @@ const Chatbot = ({ onClose }) => {
     onClose();
   };
 
-  const renderMessage = (message, index) => {
+  const renderMessage = (message: Message, index: number) => {
     if (message.isUser) {
       return (
         <div
