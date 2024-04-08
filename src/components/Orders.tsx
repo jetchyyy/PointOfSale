@@ -1,12 +1,36 @@
 import React, { Component } from "react";
-import { ref, onValue, remove, set, off, push } from "firebase/database";
+import { ref, onValue, remove, set, off, push, DatabaseReference } from "firebase/database";
 import { Table, Button, Modal } from "react-bootstrap";
 import StartFirebase from "../firebase";
-import CompletedOrders from "./CompletedOrders";
 import bikeport from "../../public/imgs/bikeport.jpg";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-export class RealtimeData extends Component {
-  constructor(props) {
+
+interface UserData {
+  Address: string;
+  Email: string;
+  Name: string;
+  Number: string;
+  PaymentMode: string;
+  InputDate: string;
+  items: { [itemId: string]: { itemName: string; quantity: number; totalPrice: number } };
+}
+
+interface TableData {
+  key: string;
+  user: UserData;
+  month: string;
+}
+
+interface State {
+  tableData: TableData[];
+  showConfirmModal: boolean;
+  showCancelModal: boolean;
+  itemToRemove: TableData | null;
+  completedOrders: TableData[];
+}
+
+class RealtimeData extends Component<{}, State> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       tableData: [],
@@ -23,10 +47,10 @@ export class RealtimeData extends Component {
     onValue(
       dbRef,
       (snapshot) => {
-        let records = [];
+        let records: TableData[] = [];
         snapshot.forEach((childSnapshot) => {
           let keyName = childSnapshot.key;
-          let userData = childSnapshot.val();
+          let userData: UserData = childSnapshot.val();
           let userRef = ref(db, `UserData/${keyName}/user`);
           let itemsRef = ref(db, `UserData/${keyName}/items`);
           let inputDateRef = ref(db, `UserData/${keyName}/user/InputDate`);
@@ -34,7 +58,7 @@ export class RealtimeData extends Component {
           onValue(userRef, (userSnapshot) => {
             let userData = userSnapshot.val();
             if (userData) {
-              let user = { ...userData };
+              let user: UserData = { ...userData };
 
               onValue(itemsRef, (itemsSnapshot) => {
                 let itemsData = itemsSnapshot.val();
@@ -47,7 +71,6 @@ export class RealtimeData extends Component {
                 let inputDate = dateSnapshot.val();
                 if (inputDate) {
                   user.InputDate = inputDate;
-                  // Parse the input date to extract the month
                   const purchaseDate = new Date(inputDate);
                   const month = purchaseDate.toLocaleString("default", {
                     month: "long",
@@ -58,7 +81,6 @@ export class RealtimeData extends Component {
             }
           });
         });
-        // Sort the records by month
         records.sort((a, b) => (a.month > b.month ? 1 : -1));
         this.setState({ tableData: records });
         if (records.length === 0) {
@@ -77,27 +99,23 @@ export class RealtimeData extends Component {
     this.fetchData();
   }
 
-  handleShowConfirmModal = (key) => {
-    this.setState({ showConfirmModal: true, itemToRemove: key });
+  handleShowConfirmModal = (row: TableData) => {
+    this.setState({ showConfirmModal: true, itemToRemove: row });
   };
 
   handleCloseConfirmModal = () => {
     this.setState({ showConfirmModal: false, itemToRemove: null });
   };
 
-  handleShowCancelModal = (key) => {
-    this.setState({ showCancelModal: true, itemToRemove: key });
+  handleShowCancelModal = (row: TableData) => {
+    this.setState({ showCancelModal: true, itemToRemove: row });
   };
 
   handleCloseCancelModal = () => {
     this.setState({ showCancelModal: false, itemToRemove: null });
   };
-  handleCancelOrder = () => {
-    const row = this.state.itemToRemove;
-    if (!row) {
-      console.error("No row selected");
-      return;
-    }
+
+  handleCancelOrder = (row: TableData) => {
     const key = row.key;
     const db = StartFirebase();
     const itemRef = ref(db, `UserData/${key}`);
@@ -105,27 +123,23 @@ export class RealtimeData extends Component {
 
     onValue(itemRef, (snapshot) => {
       const orderData = snapshot.val();
-      // Generate a new key for the canceled order
+      if (!orderData) {
+        console.error("No order data found");
+        return;
+      }
       const newCanceledOrderRef = push(canceledOrdersRef);
 
       set(newCanceledOrderRef, orderData)
         .then(() => {
           console.log("Order moved to canceled orders successfully");
-          // Remove the order from the original location after moving it
           remove(itemRef)
             .then(() => {
               console.log("Order removed from original location successfully");
-              // Remove the listener to prevent further updates
-              off(itemRef); // Remove the listener
-              // Update UI or state if necessary
+              off(itemRef);
             })
             .catch((error) => {
-              console.error(
-                "Error removing order from original location:",
-                error
-              );
+              console.error("Error removing order from original location:", error);
             });
-          // Close the cancel modal after the order is canceled
           this.handleCloseCancelModal();
         })
         .catch((error) => {
@@ -134,12 +148,7 @@ export class RealtimeData extends Component {
     });
   };
 
-  handleCompleteOrder = () => {
-    const row = this.state.itemToRemove;
-    if (!row) {
-      console.error("No row selected");
-      return;
-    }
+  handleCompleteOrder = (row: TableData) => {
     const key = row.key;
     const db = StartFirebase();
     const itemRef = ref(db, `UserData/${key}`);
@@ -147,27 +156,23 @@ export class RealtimeData extends Component {
 
     onValue(itemRef, (snapshot) => {
       const orderData = snapshot.val();
-      // Generate a new key for the completed order
+      if (!orderData) {
+        console.error("No order data found");
+        return;
+      }
       const newCompletedOrderRef = push(completedOrdersRef);
 
       set(newCompletedOrderRef, orderData)
         .then(() => {
           console.log("Order moved to completed orders successfully");
-          // Remove the order from the original location after moving it
           remove(itemRef)
             .then(() => {
               console.log("Order removed from original location successfully");
-              // Remove the listener to prevent further updates
-              off(itemRef); // Remove the listener
-              // Update UI or state if necessary
+              off(itemRef);
             })
             .catch((error) => {
-              console.error(
-                "Error removing order from original location:",
-                error
-              );
+              console.error("Error removing order from original location:", error);
             });
-          // Close the confirmation modal after the order is completed
           this.handleCloseConfirmModal();
         })
         .catch((error) => {
@@ -180,24 +185,20 @@ export class RealtimeData extends Component {
     return (
       <>
         <Table>
-        
           <tbody>
             {this.state.tableData.map((row, index) => {
               return (
                 <React.Fragment key={row.key}>
                   <tr>
-                    <td colSpan="12">
-                      {/* Span all columns */}
+                    <td colSpan={12}>
                       <p>User Details</p>
                       <p>Address: {row.user.Address}</p>
                       <p>Email: {row.user.Email}</p>
                       <p>Name: {row.user.Name}</p>
                       <p>Number: {row.user.Number}</p>
                       <p>PaymentMode: {row.user.PaymentMode}</p>
-                      <p>Input Date: {row.user.InputDate}</p>{" "}
-                      {/* New row for Input Date */}
+                      <p>Input Date: {row.user.InputDate}</p>
                       <Table bordered striped>
-                        {/* Nested table for items */}
                         <thead>
                           <tr>
                             <th>Item ID</th>
@@ -227,11 +228,9 @@ export class RealtimeData extends Component {
                         style={{ marginRight: "5px" }}
                         variant="success"
                         onClick={() => this.handleShowConfirmModal(row)}
-                       
                       >
                         Completed
                       </Button>
-
                       <Button
                         style={{ marginLeft: "5px" }}
                         variant="danger"
